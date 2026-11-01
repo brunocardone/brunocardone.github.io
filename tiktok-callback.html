@@ -3,10 +3,11 @@
 <title>Clipper Posting – autorização</title></head>
 <body style="font-family:system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 16px;line-height:1.6">
 <h1>Autorização recebida</h1>
-<p>Copie o endereço completo desta página (barra do navegador) e cole no terminal do Clipper Posting.</p>
-<p id="s" style="color:#666"></p>
+<p id="s" style="color:#666">Concluindo...</p>
 <script>
-  var q = new URLSearchParams(location.search);
-  document.getElementById("s").textContent = q.get("error") ? "Erro: " + q.get("error") : (q.get("code") ? "Código presente." : "Nenhum código nesta página.");
+  // state "local-<port>-<nonce>": hand the result to the Clipper script listening on this computer
+  var q = new URLSearchParams(location.search), m = /^local-(\d{4,5})-/.exec(q.get("state") || "");
+  if (m) location.replace("http://127.0.0.1:" + m[1] + "/" + location.search);
+  else document.getElementById("s").textContent = q.get("error") ? "Erro: " + q.get("error") : "Pode fechar esta aba.";
 </script>
 </body></html>
